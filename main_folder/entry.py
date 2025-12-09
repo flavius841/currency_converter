@@ -6,7 +6,7 @@ from prompt_toolkit.completion import WordCompleter
 import pandas as pd
 
 # url = f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/{base}.json"
-commands = ['help', 'exit', 'list']
+commands = ['help', 'exit', 'list', 'dictionary']
 
 
 command_completer = WordCompleter(commands, ignore_case=True)
@@ -33,7 +33,9 @@ def main():
         elif message.lower() == 'list':
             list_currencies()
 
-        # elif message.lower() == 'dictionary':
+        elif message.lower() == 'dictionary':
+            message = input("Enter the full currency name: ")
+            find_currency_code(message)
 
 
 def help_menu():
@@ -85,6 +87,15 @@ def list_currencies():
 
 
 def find_currency_code(currency_name):
-    df = pd.read_csv("currency_names_full.csv")
-    code = df.loc[df["FullName"] == currency_name, "Code"].values[0]
-    print(code)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(base_dir, "currency_names_full.csv")
+    df = pd.read_csv(csv_path)
+    matches = df.loc[df["FullName"] == currency_name]
+
+    if not matches.empty:
+        code = matches["Code"].values[0]
+        print(
+            Fore.CYAN + f"The currency code for '{currency_name}' is: {code}" + Style.RESET_ALL)
+    else:
+        print(
+            Fore.RED + f"Error: Currency name '{currency_name}' not found." + Style.RESET_ALL)
