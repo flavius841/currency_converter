@@ -3,6 +3,7 @@ import os
 from colorama import init, Fore, Style
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
+import pandas as pd
 
 # url = f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/{base}.json"
 commands = ['help', 'exit', 'list']
@@ -28,6 +29,11 @@ def main():
 
         elif len(parts) == 3 and (parts[0].replace('.', '', 1).isdigit() or parts[0].isnumeric()):
             convert_currency(parts)
+
+        elif message.lower() == 'list':
+            list_currencies()
+
+        # elif message.lower() == 'dictionary':
 
 
 def help_menu():
@@ -64,3 +70,21 @@ def convert_currency(parts):
     except requests.exceptions.RequestException as e:
         print(Fore.RED + "Error: Could not reach the currency API. "
               "The website may be down or your internet may be offline." + Style.RESET_ALL)
+
+
+def list_currencies():
+    url = f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json"
+    try:
+        response = requests.get(url)
+        data = response.json()
+        for currency_code in data['usd']:
+            print(currency_code.upper())
+    except requests.exceptions.RequestException as e:
+        print(Fore.RED + "Error: Could not reach the currency API. "
+              "The website may be down or your internet may be offline." + Style.RESET_ALL)
+
+
+def find_currency_code(currency_name):
+    df = pd.read_csv("currency_names_full.csv")
+    code = df.loc[df["FullName"] == currency_name, "Code"].values[0]
+    print(code)

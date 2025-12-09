@@ -1,0 +1,339 @@
+Code,FullName
+1INCH,1inch
+AAVE,Aave
+ADA,Cardano
+AED,United Arab Emirates Dirham
+AFN,Afghan Afghani
+AGIX,SingularityNET
+AKT,Akash Network
+ALGO,Algorand
+ALL,Albanian Lek
+AMD,Armenian Dram
+AMP,Amp
+ANG,Netherlands Antillean Guilder
+AOA,Angolan Kwanza
+APE,ApeCoin
+APT,Aptos
+AR,Arweave
+ARB,Arbitrum
+ARS,Argentine Peso
+ATOM,Cosmos
+ATS,Austrian Schilling
+AUD,Australian Dollar
+AVAX,Avalanche
+AWG,Aruban Florin
+AXS,Axie Infinity
+AZM,Azerbaijani Manat (old)
+AZN,Azerbaijani Manat
+BAKE,BakeryToken
+BAM,Bosnia and Herzegovina Convertible Mark
+BAT,Basic Attention Token
+BBD,Barbadian Dollar
+BCH,Bitcoin Cash
+BDT,Bangladeshi Taka
+BEF,Belgian Franc
+BGN,Bulgarian Lev
+BHD,Bahraini Dinar
+BIF,Burundian Franc
+BMD,Bermudian Dollar
+BNB,Binance Coin
+BND,Brunei Dollar
+BOB,Bolivian Boliviano
+BRL,Brazilian Real
+BSD,Bahamian Dollar
+BSV,Bitcoin SV
+BSW,Biswap
+BTC,Bitcoin
+BTCB,Bitcoin BEP2
+BTG,Bitcoin Gold
+BTN,Bhutanese Ngultrum
+BTT,BitTorrent
+BUSD,Binance USD
+BWP,Botswana Pula
+BYN,Belarusian Ruble
+BYR,Belarusian Ruble (old)
+BZD,Belize Dollar
+CAD,Canadian Dollar
+CAKE,PancakeSwap
+CDF,Congolese Franc
+CELO,Celo
+CFX,Conflux
+CHF,Swiss Franc
+CHZ,Chiliz
+CLP,Chilean Peso
+CNH,Chinese Yuan (offshore)
+CNY,Chinese Yuan
+COMP,Compound
+COP,Colombian Peso
+CRC,Costa Rican Colón
+CRO,Cronos
+CRV,Curve DAO
+CSPR,Casper
+CUC,Cuban Convertible Peso
+CUP,Cuban Peso
+CVE,Cape Verdean Escudo
+CVX,Convex Finance
+CYP,Cypriot Pound
+CZK,Czech Koruna
+DAI,Dai
+DASH,Dash
+DCR,Decred
+ECK,East Caribbean Dollar
+DYDX,dYdX
+DOP,Dominican Peso
+DOT,Polkadot
+DZD,Algerian Dinar
+EEK,Estonian Kroon
+EGLD,Elrond
+EGP,Egyptian Pound
+ENJ,Enjin Coin
+EOS,EOS
+ERN,Eritrean Nakfa
+ESP,Spanish Peseta
+ETB,Ethiopian Birr
+ETC,Ethereum Classic
+ETH,Ethereum
+EUR,Euro
+EURC,Euro Coin
+FEI,Fei Protocol
+FIL,Filecoin
+FIM,Finnish Markka
+FJD,Fijian Dollar
+FKP,Falkland Islands Pound
+FLOW,Flow
+FLR,Flare
+FRAX,Frax
+FRF,French Franc
+FTT,FTX Token
+GALA,Gala
+GBP,British Pound Sterling
+GEL,Georgian Lari
+GGP,Guernsey Pound
+GHC,Ghanaian Cedi (old)
+GHS,Ghanaian Cedi
+GIP,Gibraltar Pound
+GMD,Gambian Dalasi
+GMX,GMX
+GNF,Guinean Franc
+GNO,Gnosis
+GRD,Greek Drachma
+GRT,The Graph
+GT,GateToken
+GTQ,Guatemalan Quetzal
+GUSD,Gemini Dollar
+GYD,Guyanese Dollar
+HBAR,Hedera
+HKD,Hong Kong Dollar
+HNL,Honduran Lempira
+HNT,Helium
+HOT,Holo
+HRK,Croatian Kuna
+HT,Hathor
+HTG,Haitian Gourde
+HUF,Hungarian Forint
+ICP,Internet Computer
+IDR,Indonesian Rupiah
+IEP,Irish Pound
+ILS,Israeli New Shekel
+IMP,Isle of Man Pound
+IMX,Immutable X
+INJ,Injective
+INR,Indian Rupee
+IQD,Iraqi Dinar
+IRR,Iranian Rial
+ISK,Icelandic Krona
+ITL,Italian Lira
+JEP,Jersey Pound
+JMD,Jamaican Dollar
+JOD,Jordanian Dinar
+JPY,Japanese Yen
+KAS,Kaspa
+KAVA,Kava
+KCS,KuCoin Token
+KDA,Kadena
+KES,Kenyan Shilling
+KGS,Kyrgyzstani Som
+KHR,Cambodian Riel
+KLAY,Klaytn
+KMF,Comorian Franc
+KNC,Kyber Network
+KPW,North Korean Won
+KRW,South Korean Won
+KSM,Kusama
+KWD,Kuwaiti Dinar
+KYD,Cayman Islands Dollar
+KZT,Kazakhstani Tenge
+LAK,Lao Kip
+LBP,Lebanese Pound
+LDO,Lido DAO
+LEO,UNUS SED LEO
+LINK,Chainlink
+LKR,Sri Lankan Rupee
+LRC,Loopring
+LRD,Liberian Dollar
+LSL,Lesotho Loti
+LTC,Litecoin
+LTL,Lithuanian Litas
+LUF,Luxembourg Franc
+LUNA,Terra
+LUNC,Terra Classic
+LVL,Latvian Lats
+LYD,Libyan Dinar
+MAD,Moroccan Dirham
+MANA,Decentraland
+MBX,Mobox
+MDL,Moldovan Leu
+MGA,Malagasy Ariary
+MGF,Malagasy Franc
+MINA,Mina
+MKD,Macedonian Denar
+MKR,Maker
+MMK,Myanmar Kyat
+MNT,Mongolian Tögrög
+MOP,Macanese Pataca
+MRO,Mauritanian Ouguiya (old)
+MRU,Mauritanian Ouguiya
+MTL,Metal
+MUR,Mauritian Rupee
+MVR,Maldivian Rufiyaa
+MWK,Malawian Kwacha
+MXN,Mexican Peso
+MXV,Mexican Unidad de Inversion (UDI)
+MYR,Malaysian Ringgit
+MZM,Mozambican Metical (old)
+MZN,Mozambican Metical
+NAD,Namibian Dollar
+NEAR,NEAR Protocol
+NEO,Neo
+NEXO,Nexo
+NFT,NFT
+NGN,Nigerian Naira
+NIO,Nicaraguan Córdoba
+NLG,Dutch Guilder
+NOK,Norwegian Krone
+NPR,Nepalese Rupee
+NZD,New Zealand Dollar
+OKB,OKB
+OMR,Omani Rial
+ONE,Harmony One
+OP,Optimism
+ORDI,Ordinals
+PAB,Panamanian Balboa
+PAXG,Pax Gold
+PEN,Peruvian Sol
+PEPE,Pepe Coin
+PGK,Papua New Guinean Kina
+PHP,Philippine Peso
+PI,Pi Network
+PKR,Pakistani Rupee
+PLN,Polish Zloty
+POL,Polymath
+PTE,Portuguese Escudo
+PYG,Paraguayan Guaraní
+QAR,Qatari Rial
+QNT,Quant
+QTUM,Qtum
+ROL,Romanian Leu (old)
+RON,Romanian Leu
+RPL,Rocket Pool
+RSD,Serbian Dinar
+RUB,Russian Ruble
+RUNE,THORChain
+RVN,Ravencoin
+RWF,Rwandan Franc
+SAND,The Sandbox
+SAR,Saudi Riyal
+SBD,Solomon Islands Dollar
+SCR,Seychellois Rupee
+SDD,Sudanese Dinar (old)
+SDG,Sudanese Pound
+SEK,Swedish Krona
+SGD,Singapore Dollar
+SHIB,Shiba Inu
+SHP,Saint Helena Pound
+SIT,Slovenian Tolar
+SKK,Slovak Koruna
+SLE,Sierra Leonean Leone
+SLL,Sierra Leonean Leone
+SNX,Synthetix
+SOL,Solana
+SOS,Somali Shilling
+SPL,SafePal
+SRD,Surinamese Dollar
+SRG,Surinamese Guilder
+SSP,South Sudanese Pound
+STD,São Tomé and Príncipe Dobra (old)
+STN,São Tomé and Príncipe Dobra
+STX,Stacks
+SUI,Sui
+SVC,Salvadoran Colón
+SYP,Syrian Pound
+SZL,Swazi Lilangeni
+THB,Thai Baht
+THETA,Theta
+TJS,Tajikistani Somoni
+TMM,Turkmenistani Manat (old)
+TMT,Turkmenistani Manat
+TND,Tunisian Dinar
+TON,Toncoin
+TOP,Tongan Paʻanga
+TRL,Turkish Lira (old)
+TRX,TRON
+TRY,Turkish Lira
+TTD,Trinidad and Tobago Dollar
+TUSD,TrueUSD
+TVD,Terra Virtua Kolect
+TWD,New Taiwan Dollar
+TWT,Trust Wallet Token
+TZS,Tanzanian Shilling
+UAH,Ukrainian Hryvnia
+UGX,Ugandan Shilling
+UNI,Uniswap
+USD,United States Dollar
+USDC,USD Coin
+USDD,USDD Stablecoin
+USDP,Pax Dollar
+USDT,Tether
+UYU,Uruguayan Peso
+UZS,Uzbekistani Som
+VAL,Valor Token
+VEB,Venezuelan Bolívar (old)
+VED,Venezuelan Digital Bolívar
+VEF,Venezuelan Bolívar Fuerte (old)
+VES,Venezuelan Bolívar Soberano
+VET,VeChain
+VND,Vietnamese Dong
+VUV,Vanuatu Vatu
+WAVES,Waves
+WEMIX,WEMIX
+WOO,WOO Network
+WST,Samoan Tala
+XAF,Central African CFA Franc
+XAG,Silver Ounce
+XAU,Gold Ounce
+XAUT,Tether Gold
+XBT,Bitcoin
+XCD,East Caribbean Dollar
+XCG,Coinbase Wrapped CG
+XCH,Chia
+XDC,XinFin Network
+XDR,IMF Special Drawing Rights
+XEC,eCash
+XEM,NEM
+XLM,Stellar
+XMR,Monero
+XOF,West African CFA Franc
+XPD,Palladium Ounce
+XPF,CFP Franc
+XPT,Platinum Ounce
+XRP,XRP
+XTZ,Tezos
+YER,Yemeni Rial
+ZAR,South African Rand
+ZEC,Zcash
+ZIL,Zilliqa
+ZMK,Zambian Kwacha (old)
+ZMW,Zambian Kwacha
+ZWD,Zimbabwean Dollar (old)
+ZWG,Zimbabwean Dollar Gold (old)
+ZWL,Zimbabwean Dollar
