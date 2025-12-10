@@ -4,12 +4,19 @@ from colorama import init, Fore, Style
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 import pandas as pd
+from difflib import get_close_matches
 
 # url = f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/{base}.json"
 commands = ['help', 'exit', 'list', 'dictionary']
+base_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(base_dir, "currency_names_full.csv")
+df = pd.read_csv(csv_path)
+currecny_names = df["FullName"].tolist()
+currecny_names = currecny_names + df["Code"].tolist()
 
 
 command_completer = WordCompleter(commands, ignore_case=True)
+currency_completer = WordCompleter(currecny_names, ignore_case=True)
 
 
 def main():
@@ -34,17 +41,25 @@ def main():
             list_currencies()
 
         elif message.lower() == 'dictionary':
-            message = input("Enter the full currency name: ")
-            find_currency_code(message)
+            message = prompt("Enter the full currency name: ",
+                             completer=currency_completer).strip()
+            find_currency_code(message.title())
+
+        else:
+            print(
+                Fore.RED + "Invalid command or input. Type 'help' for instructions." + Style.RESET_ALL)
 
 
 def help_menu():
-    help_text = """
+    help_text = f"""
     Currency Converter CLI Help:
-    - To convert currencies, enter the amount, source currency code, and target currency code.
+    - To convert currencies, enter the{Fore.CYAN} amount{Style.RESET_ALL},{Fore.CYAN} source currency code{Style.RESET_ALL}, and{Fore.CYAN} target currency code{Style.RESET_ALL}.
       Example: 100 USD EUR
-    - Type 'list' to see all supported currency codes.
-    - Type 'exit' to quit the application.
+    - Type{Fore.GREEN} 'list'{Style.RESET_ALL} to see all supported currency codes.
+    - Type{Fore.GREEN} 'exit'{Style.RESET_ALL} to quit the application.
+    - Type{Fore.GREEN} 'dictionary'{Style.RESET_ALL} to find the currency code by its full name.
+      Example: If you enter 'United States Dollar', it will return 'USD'.    
+    Type{Fore.GREEN} 'list'{Style.RESET_ALL} to see all supported currency codes.
     """
     print(help_text)
 
@@ -86,16 +101,32 @@ def list_currencies():
               "The website may be down or your internet may be offline." + Style.RESET_ALL)
 
 
-def find_currency_code(currency_name):
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    csv_path = os.path.join(base_dir, "currency_names_full.csv")
-    df = pd.read_csv(csv_path)
-    matches = df.loc[df["FullName"] == currency_name]
+def find_currency_code(currency_name_or_code):
+    full_name_matches = df.loc[df["FullName"].str.lower(
+    ) == currency_name_or_code.lower()]
 
-    if not matches.empty:
-        code = matches["Code"].values[0]
+    if not full_name_matches.empty:
+        code = full_name_matches["Code"].values[0]
         print(
-            Fore.CYAN + f"The currency code for '{currency_name}' is: {code}" + Style.RESET_ALL)
+            Fore.CYAN + f"The currency code for '{currency_name_or_code}' is: {code}" + Style.RESET_ALL)
+        return
+
+    suggestions = get_close_matches(
+        currency_name_or_code, currecny_names, n=3, cutoff=0.6)
+
+    if suggestions:
+        print(Fore.YELLOW + f"Did you mean one of these?" + Style.RESET_ALL)
+        for suggestion in suggestions:
+            print(Fore.YELLOW + f"- {suggestion}" + Style.RESET_ALL)
+        return
+
+    code_matches = df.loc[df["Code"].str.lower() ==
+                          currency_name_or_code.lower()]
+    if not code_matches.empty:
+        code = code_matches["FullName"].values[0]
+        print(
+            Fore.CYAN + f"The code name for '{currency_name_or_code}' is: {code}" + Style.RESET_ALL)
+
     else:
         print(
-            Fore.RED + f"Error: Currency name '{currency_name}' not found." + Style.RESET_ALL)
+            Fore.RED + f"Error: Currency name '{currency_name_or_code}' not found." + Style.RESET_ALL)
