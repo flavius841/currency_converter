@@ -37,11 +37,14 @@ def main():
         elif len(parts) == 3 and (parts[0].replace('.', '', 1).isdigit() or parts[0].isnumeric()):
             convert_currency(parts)
 
+        elif len(parts) == 4 and (parts[0].replace('.', '', 1).isdigit() or parts[0].isnumeric()) and parts[3].replace('-', '').isdigit():
+            currency_history(parts)
+
         elif message.lower() == 'list':
             list_currencies()
 
         elif message.lower() == 'dictionary':
-            message = prompt("Enter the full currency name: ",
+            message = prompt("Enter the full currency name or it's code: ",
                              completer=currency_completer).strip()
             find_currency_code(message.title())
 
@@ -55,9 +58,12 @@ def help_menu():
     Currency Converter CLI Help:
     - To convert currencies, enter the{Fore.CYAN} amount{Style.RESET_ALL},{Fore.CYAN} source currency code{Style.RESET_ALL}, and{Fore.CYAN} target currency code{Style.RESET_ALL}.
       Example: 100 USD EUR
+    - To view historical exchange rates, enter the{Fore.CYAN} amount{Style.RESET_ALL},{Fore.CYAN} source currency code{Style.RESET_ALL},{Fore.CYAN} target currency code{Style.RESET_ALL}, and{Fore.CYAN} date (YYYY-MM-DD){Style.RESET_ALL}.
+      Example: 100 USD EUR 2022-01-01
+      Note: Historical data feature doesn't work for all currencies from the list.
     - Type{Fore.GREEN} 'list'{Style.RESET_ALL} to see all supported currency codes.
     - Type{Fore.GREEN} 'exit'{Style.RESET_ALL} to quit the application.
-    - Type{Fore.GREEN} 'dictionary'{Style.RESET_ALL} to find the currency code by its full name.
+    - Type{Fore.GREEN} 'dictionary'{Style.RESET_ALL} to find the currency code by its full name and vice versa.
       Example: If you enter 'United States Dollar', it will return 'USD'.    
     Type{Fore.GREEN} 'list'{Style.RESET_ALL} to see all supported currency codes.
     """
@@ -102,13 +108,22 @@ def list_currencies():
 
 
 def find_currency_code(currency_name_or_code):
-    full_name_matches = df.loc[df["FullName"].str.lower(
-    ) == currency_name_or_code.lower()]
+    full_name_matches = df.loc[df["FullName"].str.lower()
+                               == currency_name_or_code.lower()]
 
     if not full_name_matches.empty:
         code = full_name_matches["Code"].values[0]
         print(
             Fore.CYAN + f"The currency code for '{currency_name_or_code}' is: {code}" + Style.RESET_ALL)
+        return
+
+    code_matches = df.loc[df["Code"].str.lower() ==
+                          currency_name_or_code.lower()]
+
+    if not code_matches.empty:
+        code = code_matches["FullName"].values[0]
+        print(
+            Fore.CYAN + f"The code name for '{currency_name_or_code}' is: {code}" + Style.RESET_ALL)
         return
 
     suggestions = get_close_matches(
@@ -120,13 +135,30 @@ def find_currency_code(currency_name_or_code):
             print(Fore.YELLOW + f"- {suggestion}" + Style.RESET_ALL)
         return
 
-    code_matches = df.loc[df["Code"].str.lower() ==
-                          currency_name_or_code.lower()]
-    if not code_matches.empty:
-        code = code_matches["FullName"].values[0]
-        print(
-            Fore.CYAN + f"The code name for '{currency_name_or_code}' is: {code}" + Style.RESET_ALL)
-
     else:
         print(
             Fore.RED + f"Error: Currency name '{currency_name_or_code}' not found." + Style.RESET_ALL)
+
+
+def currency_history(parts):
+    amount = float(parts[0])
+    from_currency = parts[1].upper()
+    to_currency = parts[2].upper()
+    date = parts[3]
+    rates = "rates"
+    url = f"https://api.frankfurter.app/{date}?from={from_currency}&to={to_currency}"
+    try:
+        response = requests.get(url)
+        if response.status_code == 404:
+            print(
+                Fore.RED + f"Error: Unsupported command." + Style.RESET_ALL)
+            return
+        data = response.json()
+        rate = data[rates][to_currency]
+        converted_amount = amount * rate
+        print(
+            Fore.CYAN + f"On {date}: {amount} {from_currency.upper()} = {converted_amount:.2f} {to_currency.upper()}" + Style.RESET_ALL)
+
+    except requests.exceptions.RequestException as e:
+        print(Fore.RED + "Error: Could not reach the currency API. "
+              "The website may be down or your internet may be offline." + Style.RESET_ALL)
