@@ -7,16 +7,23 @@ import pandas as pd
 from difflib import get_close_matches
 
 # url = f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/{base}.json"
-commands = ['help', 'exit', 'list', 'dictionary']
+commands = ['help', 'exit', 'list', 'dictionary', 'history_list']
+
 base_dir = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(base_dir, "currency_names_full.csv")
 df = pd.read_csv(csv_path)
-currecny_names = df["FullName"].tolist()
-currecny_names = currecny_names + df["Code"].tolist()
+currecny_names_or_code = df["FullName"].tolist()
+currecny_names_or_code = currecny_names_or_code + df["Code"].tolist()
+
+
+csv_path = os.path.join(base_dir, "history_currencies.csv")
+df = pd.read_csv(csv_path)
+historical_currecny_names = df["Name"].tolist()
+historical_currecny_codes = df["Code"].tolist()
 
 
 command_completer = WordCompleter(commands, ignore_case=True)
-currency_completer = WordCompleter(currecny_names, ignore_case=True)
+currency_completer = WordCompleter(currecny_names_or_code, ignore_case=True)
 
 
 def main():
@@ -40,8 +47,17 @@ def main():
         elif len(parts) == 4 and (parts[0].replace('.', '', 1).isdigit() or parts[0].isnumeric()) and parts[3].replace('-', '').isdigit():
             currency_history(parts)
 
+        elif message == 'check':
+            list_historical_currencies()
+
+        elif len(parts) == 2 and parts[0].lower() == 'check':
+            check_if_historical_currency_supported(parts)
+
         elif message.lower() == 'list':
             list_currencies()
+
+        elif message.lower() == 'history_list':
+            list_historical_currencies()
 
         elif message.lower() == 'dictionary':
             message = prompt("Enter the full currency name or it's code: ",
@@ -55,17 +71,27 @@ def main():
 
 def help_menu():
     help_text = f"""
-    Currency Converter CLI Help:
+    {Fore.BLUE}Currency Converter CLI Help:{Style.RESET_ALL}
+
     - To convert currencies, enter the{Fore.CYAN} amount{Style.RESET_ALL},{Fore.CYAN} source currency code{Style.RESET_ALL}, and{Fore.CYAN} target currency code{Style.RESET_ALL}.
       Example: 100 USD EUR
+      
     - To view historical exchange rates, enter the{Fore.CYAN} amount{Style.RESET_ALL},{Fore.CYAN} source currency code{Style.RESET_ALL},{Fore.CYAN} target currency code{Style.RESET_ALL}, and{Fore.CYAN} date (YYYY-MM-DD){Style.RESET_ALL}.
       Example: 100 USD EUR 2022-01-01
       Note: Historical data feature doesn't work for all currencies from the list.
+
     - Type{Fore.GREEN} 'list'{Style.RESET_ALL} to see all supported currency codes.
+    
     - Type{Fore.GREEN} 'exit'{Style.RESET_ALL} to quit the application.
+    
     - Type{Fore.GREEN} 'dictionary'{Style.RESET_ALL} to find the currency code by its full name and vice versa.
-      Example: If you enter 'United States Dollar', it will return 'USD'.    
-    Type{Fore.GREEN} 'list'{Style.RESET_ALL} to see all supported currency codes.
+      Example: If you enter 'United States Dollar', it will return 'USD'.
+
+    - Type{Fore.GREEN} 'history_list'{Style.RESET_ALL} to see all supported currencies for historical data.
+
+    - Type{Fore.GREEN} 'check <CURRENCY_CODE>'{Style.RESET_ALL} to check if a currency code is supported for historical data.
+      Example: check USD
+      Note: YO=ou can not use cuurrency names with this command, only currency codes.
     """
     print(help_text)
 
@@ -127,7 +153,7 @@ def find_currency_code(currency_name_or_code):
         return
 
     suggestions = get_close_matches(
-        currency_name_or_code, currecny_names, n=3, cutoff=0.6)
+        currency_name_or_code, currecny_names_or_code, n=3, cutoff=0.6)
 
     if suggestions:
         print(Fore.YELLOW + f"Did you mean one of these?" + Style.RESET_ALL)
@@ -146,13 +172,18 @@ def currency_history(parts):
     to_currency = parts[2].upper()
     date = parts[3]
     rates = "rates"
+    if from_currency not in historical_currecny_codes:
+        print(
+            Fore.RED + f"Error: The currency code '{from_currency}' is not supported for historical data." + Style.RESET_ALL)
+        return
+    if to_currency not in historical_currecny_codes:
+        print(
+            Fore.RED + f"Error: The currency code '{to_currency}' is not supported for historical data." + Style.RESET_ALL)
+        return
     url = f"https://api.frankfurter.app/{date}?from={from_currency}&to={to_currency}"
     try:
-        response = requests.get(url)
-        if response.status_code == 404:
-            print(
-                Fore.RED + f"Error: Unsupported command." + Style.RESET_ALL)
-            return
+        response = requests.get(url, timeout=5)
+
         data = response.json()
         rate = data[rates][to_currency]
         converted_amount = amount * rate
@@ -161,4 +192,20 @@ def currency_history(parts):
 
     except requests.exceptions.RequestException as e:
         print(Fore.RED + "Error: Could not reach the currency API. "
-              "The website may be down or your internet may be offline." + Style.RESET_ALL)
+              "The website may be down or your internet may be offline. Or maybe you put a wrong date" + Style.RESET_ALL)
+
+
+def list_historical_currencies():
+    print(Fore.CYAN + "Supported currencies for historical data:" + Style.RESET_ALL)
+    for currency_name in historical_currecny_names:
+        print(currency_name)
+
+
+def check_if_historical_currency_supported(parts):
+
+    if parts[1].upper() in historical_currecny_codes:
+        print(
+            Fore.CYAN + f"The currency code '{parts[1]}' is supported for historical data." + Style.RESET_ALL)
+    else:
+        print(
+            Fore.RED + f"The currency code '{parts[1]}' is NOT supported for historical data." + Style.RESET_ALL)
