@@ -5,9 +5,11 @@ from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 import pandas as pd
 from difflib import get_close_matches
+from datetime import date, datetime
 
 # url = f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/{base}.json"
-commands = ['help', 'exit', 'list', 'dictionary', 'history_list']
+commands = ['help', 'exit', 'list', 'dictionary',
+            'history_list', 'swap', 'check']
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(base_dir, "currency_names_full.csv")
@@ -24,9 +26,11 @@ historical_currecny_codes = df["Code"].tolist()
 
 command_completer = WordCompleter(commands, ignore_case=True)
 currency_completer = WordCompleter(currecny_names_or_code, ignore_case=True)
+previous_parts = []
 
 
 def main():
+    global previous_parts
     print(Fore.GREEN + "Welcome to the Currency Converter CLI!" + Style.RESET_ALL)
     print("Type 'help' for instructions or 'exit' to quit.")
 
@@ -64,9 +68,19 @@ def main():
                              completer=currency_completer).strip()
             find_currency_code(message.title())
 
+        elif message.lower() == 'swap' and (len(previous_parts) == 3 and (previous_parts[0].replace('.', '', 1).isdigit()
+                                                                          or previous_parts[0].isnumeric())):
+            previous_parts[1], previous_parts[2] = previous_parts[2], previous_parts[1]
+            convert_currency(previous_parts)
+
+        elif message.lower() == 'swap':
+            print(Fore.RED + "Invalid previous command." + Style.RESET_ALL)
+
         else:
             print(
                 Fore.RED + "Invalid command or input. Type 'help' for instructions." + Style.RESET_ALL)
+
+        previous_parts = parts
 
 
 def help_menu():
@@ -92,6 +106,10 @@ def help_menu():
     - Type{Fore.GREEN} 'check <CURRENCY_CODE>'{Style.RESET_ALL} to check if a currency code is supported for historical data.
       Example: check USD
       Note: YO=ou can not use cuurrency names with this command, only currency codes.
+
+    - Type {Fore.GREEN} 'swap' {Style.RESET_ALL} to swap the currency codes of your previous input.
+      Example: If your previous command was 100 USD EUR, after using swap it will become 100 EUR USD.
+      Note: This won't work if your previous command wasn't in the format shown in the example.
     """
     print(help_text)
 
@@ -170,7 +188,18 @@ def currency_history(parts):
     amount = float(parts[0])
     from_currency = parts[1].upper()
     to_currency = parts[2].upper()
-    date = parts[3]
+    if not is_valid_date(parts[3]):
+        print(Fore.RED + "Error: Please enter a valid date" + Style.RESET_ALL)
+        return
+    input_date = datetime.strptime(parts[3], "%Y-%m-%d").date()
+    today = date.today()
+    earliest_date = date(2007, 1, 1)
+    if input_date < earliest_date:
+        print(Fore.RED + "Error: The date cannot be earlier than January 1, 2007." + Style.RESET_ALL)
+        return
+    if input_date > today:
+        print(Fore.RED + "Error: The date cannot be in the future." + Style.RESET_ALL)
+        return
     rates = "rates"
     if from_currency not in historical_currecny_codes:
         print(
@@ -180,7 +209,7 @@ def currency_history(parts):
         print(
             Fore.RED + f"Error: The currency code '{to_currency}' is not supported for historical data." + Style.RESET_ALL)
         return
-    url = f"https://api.frankfurter.app/{date}?from={from_currency}&to={to_currency}"
+    url = f"https://api.frankfurter.app/{input_date}?from={from_currency}&to={to_currency}"
     try:
         response = requests.get(url, timeout=5)
 
@@ -188,11 +217,11 @@ def currency_history(parts):
         rate = data[rates][to_currency]
         converted_amount = amount * rate
         print(
-            Fore.CYAN + f"On {date}: {amount} {from_currency.upper()} = {converted_amount:.2f} {to_currency.upper()}" + Style.RESET_ALL)
+            Fore.CYAN + f"On {input_date}: {amount} {from_currency.upper()} = {converted_amount:.2f} {to_currency.upper()}" + Style.RESET_ALL)
 
     except requests.exceptions.RequestException as e:
         print(Fore.RED + "Error: Could not reach the currency API. "
-              "The website may be down or your internet may be offline. Or maybe you put a wrong date" + Style.RESET_ALL)
+              "The website may be down or your internet may be offline." + Style.RESET_ALL)
 
 
 def list_historical_currencies():
@@ -209,3 +238,15 @@ def check_if_historical_currency_supported(parts):
     else:
         print(
             Fore.RED + f"The currency code '{parts[1]}' is NOT supported for historical data." + Style.RESET_ALL)
+
+
+def is_valid_date(date_str):
+    try:
+        datetime.strptime(date_str, "%Y-%m-%d")
+        return True
+
+    except ValueError:
+        return False
+
+
+# def swap_function():
