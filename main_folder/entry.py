@@ -9,19 +9,19 @@ from datetime import date, datetime
 
 
 commands = ['help', 'exit', 'list', 'dictionary',
-            'history_list', 'swap', 'check']
+            'swap', 'check']
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(base_dir, "currency_names_full.csv")
-df = pd.read_csv(csv_path)
-currecny_names_or_code = df["FullName"].tolist()
-currecny_names_or_code = currecny_names_or_code + df["Code"].tolist()
+df_full = pd.read_csv(csv_path)
+currecny_names_or_code = df_full["FullName"].tolist()
+currecny_names_or_code = currecny_names_or_code + df_full["Code"].tolist()
 
 
 csv_path = os.path.join(base_dir, "history_currencies.csv")
-df = pd.read_csv(csv_path)
-historical_currecny_names = df["Name"].tolist()
-historical_currecny_codes = df["Code"].tolist()
+df_hist = pd.read_csv(csv_path)
+historical_currecny_names = df_hist["Name"].tolist()
+historical_currecny_codes = df_hist["Code"].tolist()
 
 
 command_completer = WordCompleter(commands, ignore_case=True)
@@ -59,9 +59,6 @@ def main():
 
         elif message.lower() == 'list':
             list_currencies()
-
-        elif message.lower() == 'history_list':
-            list_historical_currencies()
 
         elif message.lower() == 'dictionary':
             message = prompt("Enter the full currency name or it's code: ",
@@ -106,7 +103,7 @@ def help_menu():
     - Type{Fore.GREEN} 'dictionary'{Style.RESET_ALL} to find the currency code by its full name and vice versa.
       Example: If you enter 'United States Dollar', it will return 'USD'.
 
-    - Type{Fore.GREEN} 'history_list'{Style.RESET_ALL} to see all supported currencies for historical data.
+    - Type{Fore.GREEN} 'check'{Style.RESET_ALL} to see all supported currencies for historical data.
 
     - Type{Fore.GREEN} 'check <CURRENCY_CODE>'{Style.RESET_ALL} to check if a currency code is supported for historical data.
       Example: check USD
@@ -157,8 +154,8 @@ def list_currencies():
 
 
 def find_currency_code(currency_name_or_code):
-    full_name_matches = df.loc[df["FullName"].str.lower()
-                               == currency_name_or_code.lower()]
+    full_name_matches = df_full.loc[df_full["FullName"].str.lower()
+                                    == currency_name_or_code.lower()]
 
     if not full_name_matches.empty:
         code = full_name_matches["Code"].values[0]
@@ -166,8 +163,8 @@ def find_currency_code(currency_name_or_code):
             Fore.CYAN + f"The currency code for '{currency_name_or_code}' is: {code}" + Style.RESET_ALL)
         return
 
-    code_matches = df.loc[df["Code"].str.lower() ==
-                          currency_name_or_code.lower()]
+    code_matches = df_full.loc[df_full["Code"].str.lower() ==
+                               currency_name_or_code.lower()]
 
     if not code_matches.empty:
         code = code_matches["FullName"].values[0]
