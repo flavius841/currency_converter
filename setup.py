@@ -12,6 +12,10 @@ setup(
             "convert_currency=main_folder.entry:main",
         ],
     },
+    include_package_data=True,
+    package_data={
+        "main_folder": ["*.csv"],
+    },
     install_requires=[
         "colorama",
         'requests',
