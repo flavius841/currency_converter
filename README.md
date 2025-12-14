@@ -132,7 +132,7 @@ in your terminal or Command Prompt.
 5. Type 'dictionary' to find the currency code by its full name and vice versa.
       * Example: If you enter 'United States Dollar', it will return 'USD'.
 
-6. Type'check' to see all supported currencies for historical data.
+6. Type 'check' to see all supported currencies for historical data.
 
 7. Type 'check <CURRENCY_CODE>' to check if a currency code is supported for historical data.
       * Example: check USD
