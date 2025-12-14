@@ -16,5 +16,6 @@ setup(
         "colorama",
         'requests',
         'prompt_toolkit',
+        'pandas',
     ],
 )
