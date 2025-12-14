@@ -7,7 +7,7 @@ import pandas as pd
 from difflib import get_close_matches
 from datetime import date, datetime
 
-# url = f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/{base}.json"
+
 commands = ['help', 'exit', 'list', 'dictionary',
             'history_list', 'swap', 'check']
 
@@ -72,6 +72,11 @@ def main():
                                                                           or previous_parts[0].isnumeric())):
             previous_parts[1], previous_parts[2] = previous_parts[2], previous_parts[1]
             convert_currency(previous_parts)
+
+        elif message.lower() == 'swap' and (len(previous_parts) == 4 and
+                                            (previous_parts[0].replace('.', '', 1).isdigit() or previous_parts[0].isnumeric()) and previous_parts[3].replace('-', '').isdigit()):
+            previous_parts[1], previous_parts[2] = previous_parts[2], previous_parts[1]
+            currency_history(previous_parts)
 
         elif message.lower() == 'swap':
             print(Fore.RED + "Invalid previous command." + Style.RESET_ALL)
@@ -247,6 +252,3 @@ def is_valid_date(date_str):
 
     except ValueError:
         return False
-
-
-# def swap_function():
