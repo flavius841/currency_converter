@@ -5,6 +5,7 @@ This is a **CLI (Command Line Interface) project** that allows you to:
 2. view historical exchange rates
 3. find the currency code by its full name and vice versa
 
+
 ## Prerequisites
 
 To run this project, you need to have **Python** and **Git** installed on your system.
@@ -112,3 +113,31 @@ in your terminal or Command Prompt.
 
 ## Notes
 * Make sure Python, pipx, and Git are installed correctly before running the CLI.
+
+---
+
+## How to use it
+
+1. To convert currencies, enter the amount, source currency code, and target currency code.
+      * Example: 100 USD EUR
+      
+2. To view historical exchange rates, enter the amount, source currency code, target currency code, and date (YYYY-MM-DD).
+      * Example: 100 USD EUR 2022-01-01
+      * Note: Historical data feature doesn't work for all currencies from the list.
+
+3. Type 'list' to see all supported currency codes.
+    
+4. Type 'exit' to quit the application.
+    
+5. Type 'dictionary' to find the currency code by its full name and vice versa.
+      * Example: If you enter 'United States Dollar', it will return 'USD'.
+
+6. Type'history_list' to see all supported currencies for historical data.
+
+7. Type 'check <CURRENCY_CODE>' to check if a currency code is supported for historical data.
+      * Example: check USD
+      * Note: YO=ou can not use cuurrency names with this command, only currency codes.
+
+8. Type 'swap' to swap the currency codes of your previous input.
+      * Example: If your previous command was 100 USD EUR, after using swap it will become 100 EUR USD.
+      * Note: This won't work if your previous command wasn't in the format shown in the example.
